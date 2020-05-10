@@ -16,8 +16,29 @@ class Solution {
 
     // Complete the largestPermutation function below.
     static int[] largestPermutation(int k, int[] arr) {
+        int[] b = new int[arr.Length];
+        for (int i = 0; i < arr.Length;i++){
+            b[arr[i] - 1] = i;
+        }
+        int j = 0;
+        while(k > 0 && j < arr.Length){
+            if(arr[j] != arr.Length - j){
+                int pos = b[arr.Length - j - 1];
+                int temp = arr[j];
+                swap (ref arr[j], ref arr[pos]);
+                b[arr.Length -  j - 1] = j;
+                b[temp - 1] = pos;
+                k--;
+            }
+        j++;
+    }
+    return arr;
+    }
 
-
+    public static void swap(ref int a,ref int b){
+        int temp = a;
+        a = b;
+        b = temp;
     }
 
     static void Main(string[] args) {
