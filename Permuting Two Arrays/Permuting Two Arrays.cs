@@ -16,8 +16,15 @@ class Solution {
 
     // Complete the twoArrays function below.
     static string twoArrays(int k, int[] A, int[] B) {
-
-
+    	string result ="YES";
+        Array.Sort(A);
+        Array.Sort(B);
+        Array.Reverse(B);
+        for (int i = 0; i < A.Length; i++){
+            if (A[i] + B[i] < k) result = "NO";
+        }
+        return result;
+    	
     }
 
     static void Main(string[] args) {
