@@ -16,7 +16,19 @@ class Solution {
 
     // Complete the jimOrders function below.
     static int[] jimOrders(int[][] orders) {
-
+		int[] result = new int[orders.Length];
+        int[] temp = new int[orders.Length];
+        int[] temp2 = new int[orders.Length];
+        for (int i= 0; i < orders.Length; i++){
+            temp[i] = orders[i][0] + orders[i][1];
+            temp2[i] = orders[i][0] + orders[i][1];
+        }
+        Array.Sort(temp); 
+        for (int i = 0; i < orders.Length; i++){
+            result[i] = Array.IndexOf(temp2, temp[i]) +1;
+            temp2[result[i] - 1] = 0;    
+        }
+        return result;
 
     }
 
