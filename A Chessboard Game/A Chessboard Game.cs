@@ -15,6 +15,7 @@ using System;
 class Solution {
 
     // Complete the chessboardGame function below.
+    /* (0,1) (1,0) (1,1) (0,0) is win. */
     static string chessboardGame(int x, int y) {
         x = x % 4;
         y = y % 4;
