@@ -17,6 +17,25 @@ class Solution {
     // Complete the climbingLeaderboard function below.
     static int[] climbingLeaderboard(int[] scores, int[] alice) {
         int[] result = new int[alice.Length];
+        for (int m = 0; m < alice.Length; m++){
+            result[m] = rank2(scores,alice[m]);
+        }
+        return result;
+    }
+    public static int rank2(int[] scores, int number){
+        if (number > scores[0]) return 1;
+        int count = 0;
+        int temp2 = scores[0];
+        for (int j = 1; j < scores.Length; j++){
+            if (scores[j] == temp2) {
+                count++;
+            } else temp2 = scores[j];
+        }
+        if (number < scores[scores.Length - 1]) return scores.Length - count +1;
+        Array.Resize(ref scores, scores.Length + 1);
+        scores[scores.Length - 1] = number;
+        Array.Sort(scores);
+        Array.Reverse(scores);
         int[] rank = new int[scores.Length];
         int temp = scores[0];
         int pointrank = 1;
@@ -28,32 +47,7 @@ class Solution {
                 rank[i] = pointrank;
             }
         }
-        int mid = scores.Length/2;
-        for (int m = 0; m < alice.Length; m++){
-            if (alice[m] < scores[scores.Length - 1]){
-                result[m] = rank[scores.Length -1 ] +1;
-            } else if ( alice[m] > scores[0]){
-                result[m] = rank[0];
-            } else {
-                if (alice[m] > scores[mid]){
-                    for(int j = 0; j <= mid; j++){
-                        if (alice[m] >= scores[j]){
-                            result[m] = rank[j];
-                            break;
-                        }
-                    }
-                } else {
-                    for(int n = mid; n <scores.Length; n++){
-                        if (alice[m] >= scores[n]){
-                            result[m] = rank[n];
-                            break;
-                        }
-                    }
-                }
-                
-            }
-        }
-        return result;
+        return rank[Array.IndexOf(scores,number)];
     }
 
     static void Main(string[] args) {
