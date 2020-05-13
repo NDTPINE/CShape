@@ -17,39 +17,43 @@ class Solution {
     // Complete the climbingLeaderboard function below.
     static int[] climbingLeaderboard(int[] scores, int[] alice) {
         int[] result = new int[alice.Length];
-        int index = scores[0];
-        int count = 0;
-        for (int i = 1; i < scores.Length; i++){
-            if (scores[i] == index) {
-                scores[i] = 0;
-                count++;
-            } else index = scores[i];
+        int[] rank = new int[scores.Length];
+        int temp = scores[0];
+        int pointrank = 1;
+        for (int i = 0; i < scores.Length;i++){
+            if (scores[i] == temp) rank[i] = pointrank;
+            else {
+                pointrank++;
+                temp = scores[i];
+                rank[i] = pointrank;
+            }
         }
-        Array.Sort(scores);
-        Array.Reverse(scores);
-        Array.Resize(ref scores, scores.Length - count);
-    
-        index = 0;
+        int mid = scores.Length/2;
         for (int m = 0; m < alice.Length; m++){
             if (alice[m] < scores[scores.Length - 1]){
-                result[index] = scores.Length +1;
-                index++;
+                result[m] = rank[scores.Length -1 ] +1;
             } else if ( alice[m] > scores[0]){
-                result[index] = 1;
-                index++;
-            }else {
-                for(int j = 0; j < scores.Length; j++){
-                    if (alice[m] >= scores[j]) {
-                        result[index] = j+1;
-                        index++;
-                        break;
+                result[m] = rank[0];
+            } else {
+                if (alice[m] > scores[mid]){
+                    for(int j = 0; j <= mid; j++){
+                        if (alice[m] >= scores[j]){
+                            result[m] = rank[j];
+                            break;
+                        }
+                    }
+                } else {
+                    for(int n = mid; n <scores.Length; n++){
+                        if (alice[m] >= scores[n]){
+                            result[m] = rank[n];
+                            break;
+                        }
                     }
                 }
+                
             }
-  
         }
         return result;
-
     }
 
     static void Main(string[] args) {
