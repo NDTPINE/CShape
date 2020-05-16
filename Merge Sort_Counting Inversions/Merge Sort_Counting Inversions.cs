@@ -15,23 +15,43 @@
     class Solution {
 
         // Complete the countInversions function below.
-        static long countInversions(int[] arr) {
-            long count = 0;
-            for (int i = 0; i < arr.Length -1; i++){
-                for ( int j = i + 1; j < arr.Length; j++){
-                    if (arr[j] < arr[i]){
-                        swap(ref arr[j], ref arr[i]);
-                        count++;
-                    }
-                }
+        private static long countInversions(int[] arr) {
+        int[] aux = new int[arr.Length];
+        Array.Copy(arr,aux, arr.Length);
+        return countInversions(arr, 0, arr.Length - 1, aux);
+        }
+
+        private static long countInversions(int[] arr, int lo, int hi, int[] aux) {
+        if (lo >= hi) return 0;
+
+        int mid = lo + (hi - lo) / 2;
+
+        long count = 0;
+        count += countInversions(aux, lo, mid, arr);
+        count += countInversions(aux, mid + 1, hi, arr);
+        count += merge(arr, lo, mid, hi, aux);
+
+        return count;
+    }
+
+    public static long merge(int[] arr, int lo, int mid, int hi, int[] aux) {
+        long count = 0;
+        int i = lo, j = mid + 1, k = lo;
+        while (i <= mid || j <= hi) {
+            if (i > mid) {
+                arr[k++] = aux[j++];
+            } else if (j > hi) {
+                arr[k++] = aux[i++];
+            } else if (aux[i] <= aux[j]) {
+                arr[k++] = aux[i++];
+            } else {
+                arr[k++] = aux[j++];
+                count += mid + 1 - i;
             }
-            return count;
         }
-        static void swap (ref int a, ref int b){
-            int temp = a;
-            a = b;
-            b = temp;
-        }
+
+        return count;
+    }
 
         static void Main(string[] args) {
             TextWriter textWriter = new StreamWriter(@System.Environment.GetEnvironmentVariable("OUTPUT_PATH"), true);
