@@ -15,18 +15,25 @@ using System;
 class Solution {
 
     // Complete the substrCount function below.
-    static long substrCount(int n, string s) {
-        long count = 0;
-        string tempStr = "";
-        string temp = "";
-        for (int i = 0; i < n - 1; i++){
-            for (int j = i +1 ; j < n; j++){
-                       
-            }
+    static long substrCount(int length, string s) {
+        long counter = 0;
+    for (int i = 0; i < length; i++) {
+        // if the current symbol is in the middle of palindrome, e.g. aba
+        int offset = 1;
+        while (i - offset >= 0 && i + offset < length && Convert.ToInt32(s[i - offset]) == Convert.ToInt32(s[i - 1])
+                && Convert.ToInt32(s[i + offset]) == Convert.ToInt32(s[i - 1])) {
+            counter++;
+            offset++;
         }
-        count += n;
-        return count;
-
+        // if this is repeatable characters aa
+        int repeats = 0;
+        while (i + 1 < length && Convert.ToInt32(s[i]) == Convert.ToInt32(s[i + 1])) {
+            repeats++;
+            i++;
+        }
+        counter += repeats * (repeats + 1) / 2;
+    }
+    return counter + length;
     }
     public static int isPalinedrome(string str){
         int i = 0;
