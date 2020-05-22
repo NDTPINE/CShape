@@ -16,14 +16,16 @@ class Solution {
 
     // Complete the icecreamParlor function below.
     static int[] icecreamParlor(int m, int[] arr) {
-        int[] buyIce = new int[2];
-        for (int i = 0; i < arr.Length - 1; i++){
-            for (int j = i +1; j< arr.Length; j++){
-                if (arr[i] + arr[j] == m){
-                    buyIce[0] = i+1;
-                    buyIce[1] = j+1;
-                    break;
-                }
+        int[] buyIce = new int[2]{0,0};
+        
+        var ice = new Hashtable();
+        for (int i = 0; i < arr.Length; i++){
+            ice.Add(i+1, Array.IndexOf(arr, m - arr[i],i+1)+1);
+        }
+        foreach(DictionaryEntry hash in ice){
+            if (Convert.ToInt32(hash.Value) != 0 && buyIce[0] == 0){
+                buyIce[1] = Convert.ToInt32(hash.Value);
+                buyIce[0] = Convert.ToInt32(hash.Key);
             }
         }
         return buyIce;
@@ -39,7 +41,7 @@ class Solution {
 
             int n = Convert.ToInt32(Console.ReadLine());
 
-            int[] arr = Array.ConvertAll(Console.ReadLine().Split(' '), arrTemp => Convert.ToInt32(arrTemp))
+            int[] arr = Array.ConvertAll(Console.ReadLine().Trim().Split(' '), arrTemp => Convert.ToInt32(arrTemp))
             ;
             int[] result = icecreamParlor(m, arr);
 
