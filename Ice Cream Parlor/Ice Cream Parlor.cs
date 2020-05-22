@@ -15,18 +15,17 @@ using System;
 class Solution {
 
     // Complete the icecreamParlor function below.
-    static int[] icecreamParlor(int m, int[] arr) {
+    static void icecreamParlor(int m, int[] arr) {
         int[] buyIce = new int[2]{0,0};
-        
-        var ice = new Hashtable();
+        Dictionary<int, int > map = new Dictionary<int, int>();
         for (int i = 0; i < arr.Length; i++){
-            ice.Add(i+1, Array.IndexOf(arr, m - arr[i],i+1)+1);
-        }
-        foreach(DictionaryEntry hash in ice){
-            if (Convert.ToInt32(hash.Value) != 0 && buyIce[0] == 0){
-                buyIce[1] = Convert.ToInt32(hash.Value);
-                buyIce[0] = Convert.ToInt32(hash.Key);
+            int target = m - arr[i];
+            if (map.ContainsKey(target)){
+                buyIce[0] = map[target];
+                buyIce[1] = i+1;
+                break;
             }
+            map.Add(arr[i], (i+1));
         }
         return buyIce;
     }
@@ -44,7 +43,7 @@ class Solution {
             int[] arr = Array.ConvertAll(Console.ReadLine().Trim().Split(' '), arrTemp => Convert.ToInt32(arrTemp))
             ;
             int[] result = icecreamParlor(m, arr);
-
+            
             textWriter.WriteLine(string.Join(" ", result));
         }
 
