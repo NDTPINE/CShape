@@ -16,23 +16,24 @@ class Solution {
 
     // Complete the countTriplets function below.
     static long countTriplets(List<long> arr, long r, long n) {
-        // if (r == 1) {
-        //     long temp = n*(n-1)*(n-2)/6;
-        //     return temp;
-        // }
+        Dictionary<long, long>  ht2 = new Dictionary<long, long>();
+        Dictionary<long, long>  ht3 = new Dictionary<long, long>();
         long count = 0;
-        arr.Sort();
-        List<bool> checkArray = new List<bool>();
-        for (int i = 0; i < n - 2; i++){
-            for (int j = i+1; j < n - 1; j++){
-                for (int m = j+1; m < n; m++){
-                    if (check(arr[i], arr[j], arr[m],r)){
-                        checkArray.Add(true);
-                    }
-                }
+        foreach (long val in  arr){
+            if (ht3.ContainsKey(val)){
+                count+= ht3[val];
             }
+            if (ht2.ContainsKey(val)){
+                if (ht3.ContainsKey(val*r)){
+                    ht3[val*r] += ht2[val];
+                }else {
+                    ht3[val*r] = ht2[val];
+                }
+            } 
+            if (ht2.ContainsKey(val*r)){
+                ht2[val*r]++;
+            } else ht2[val*r] = 1;
         }
-        count = checkArray.Count;
         return count;
     }
     public static bool check(long a, long b, long c, long r){
